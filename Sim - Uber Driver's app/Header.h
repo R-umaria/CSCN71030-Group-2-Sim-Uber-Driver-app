@@ -7,16 +7,24 @@
 #include <unistd.h>
 
 // Data structures
-typedef struct {
+typedef struct Coordinate {
     int x;
     int y;
-} Coordinate;
+} COORDINATE;
 
-typedef struct {
-    Coordinate pickup;
-    Coordinate delivery;
+typedef struct Order
+{
+    COORDINATE pickup;
+    COORDINATE delivery;
+    int orderID;
     // Will have to add more fields as needed
-} Order;
+} ORDER;
+
+typedef struct Node
+{
+    ORDER data;
+    struct Node* next;
+}NODE;
 
 
 // Function prototypes
