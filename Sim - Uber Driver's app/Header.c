@@ -30,7 +30,3 @@ void userInteraction() {
 void manageOrder(Order order) {
     // order management
 }
-
-void writeFile(/* Pass parameters */) {
-    // file handling
-}

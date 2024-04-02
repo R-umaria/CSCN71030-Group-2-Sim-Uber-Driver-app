@@ -33,4 +33,4 @@ void generateRandomOrder(Order* order);
 void dijkstraAlgorithm(/* Will have to Pass necessary parameters */);
 void userInteraction();
 void manageOrder(Order order);
-void writeFile(/* Will have to Pass necessary parameters */);
+int writeFile(NODE* ptr);
