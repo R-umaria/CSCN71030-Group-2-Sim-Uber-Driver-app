@@ -6,30 +6,38 @@
 // the principle of  "Dijkstra's Algorithm"
 
 #include "Header.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "Functions.h"
 
-int main() {
-
+int main(int argc, char* argv[]) {
+    // Seed the random number generator
     srand(time(NULL));
 
-    int maxX = 100; // Maximum x coordinate (will change afterwards)
-    int maxY = 100; // Maximum y coordinate (will change afterwards)
-    Coordinate userLocation = generateRandomCoordinate(maxX, maxY);
-    printf("User location: (%d, %d)\n", userLocation.x, userLocation.y);
+    // Generate a random order
+    OrderNode* randomOrder = generateRandomOrder(0, 0, 50);
 
-    Coordinate pickup, delivery;
-    generateFoodOrder(&pickup, &delivery, maxX, maxY);
-    printf("Food order - Pickup: (%d, %d), Delivery: (%d, %d)\n", pickup.x, pickup.y, delivery.x, delivery.y);
+    // Output the linked list of delivery locations and the height of the linked list
+    printf("Random Order:\n");
+    printf("Pickup Location: (%.2f, %.2f)\n", randomOrder->pickupLocation.x,
+        randomOrder->pickupLocation.y);
+    CoordinateNode* current = randomOrder->deliveryLocations;
+    while (current != NULL) {
+        printf("Delivery Location: (%.2f, %.2f)\n", current->x, current->y);
+        current = current->next;
+    }
+    printf("Height of the delivery locations linked list: %d\n",
+        calculateHeight(randomOrder->deliveryLocations));
 
-    // Implement Dijkstra's algorithm to find shortest path between userLocation, pickup, and delivery
-
-    // Simulate user accepting or declining order
-    // Provide more orders near the pickup location if accepted
-
-    // Sort orders based on shortest distance first and longest distance after
-
-    // Simulate driver's trip according to the sorted order of tasks
-
-    // and any other required stuffs
+    // Find shortest paths from pickup location to each delivery location
+    current = randomOrder->deliveryLocations;
+    while (current != NULL) {
+        float distance = findShortestPath(&randomOrder->pickupLocation, current);
+        printf("Distance from Pickup Location to Delivery Location %d: %.2f\n",
+            current->id, distance);
+        current = current->next;
+    }
 
     return 0;
 }
