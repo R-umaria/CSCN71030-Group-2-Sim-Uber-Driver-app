@@ -127,8 +127,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Header.c" />
+    <ClCompile Include="Algorithm.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="Random.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cordinates.h" />
