@@ -8,28 +8,39 @@
 #include "Header.h"
 
 int main() {
+    srand(time(NULL)); // Seed the random number generator with current time
 
-    srand(time(NULL));
+    float userX = 0.0f; // User's X coordinate
+    float userY = 0.0f; // User's Y coordinate
+    float radius = 10.0f; // Radius around the user's location for generating pickup and delivery locations
 
-    int maxX = 100; // Maximum x coordinate (will change afterwards)
-    int maxY = 100; // Maximum y coordinate (will change afterwards)
-    Coordinate userLocation = generateRandomCoordinate(maxX, maxY);
-    printf("User location: (%d, %d)\n", userLocation.x, userLocation.y);
+    // Generate a random order
+    OrderNode* order = generateRandomOrder(userX, userY, radius);
 
-    Coordinate pickup, delivery;
-    generateFoodOrder(&pickup, &delivery, maxX, maxY);
-    printf("Food order - Pickup: (%d, %d), Delivery: (%d, %d)\n", pickup.x, pickup.y, delivery.x, delivery.y);
+    // Allocate memory for distances
+    float* distances = (float*)malloc(order->numDeliveries * sizeof(float));
 
-    // Implement Dijkstra's algorithm to find shortest path between userLocation, pickup, and delivery
+    // Compute distances from pickup location to delivery locations
+    computeDistances(order, &distances);
 
-    // Simulate user accepting or declining order
-    // Provide more orders near the pickup location if accepted
+    // Determine the optimal order to visit delivery locations
+    int* orderOfVisits = (int*)malloc(order->numDeliveries * sizeof(int));
+    determineOptimalOrder(distances, order->numDeliveries, orderOfVisits);
 
-    // Sort orders based on shortest distance first and longest distance after
+    // Print the order details
+    printOrder(order, orderOfVisits);
 
-    // Simulate driver's trip according to the sorted order of tasks
+    // Free memory
+    free(distances);
+    free(orderOfVisits);
 
-    // and any other required stuffs
+    CoordinateNode* current = order->deliveryLocations;
+    while (current != NULL) {
+        CoordinateNode* next = current->next;
+        free(current);
+        current = next;
+    }
+    free(order);
 
     return 0;
 }
