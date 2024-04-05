@@ -6,6 +6,10 @@
 // the principle of  "Dijkstra's Algorithm"
 
 #include "Header.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "Functions.h"
 
 int main() {
     srand(time(NULL)); // Seed the random number generator with current time
@@ -14,33 +18,25 @@ int main() {
     float userY = 0.0f; // User's Y coordinate
     float radius = 10.0f; // Radius around the user's location for generating pickup and delivery locations
 
-    // Generate a random order
-    OrderNode* order = generateRandomOrder(userX, userY, radius);
+    int maxX = 100; // Maximum x coordinate (will change afterwards)
+    int maxY = 100; // Maximum y coordinate (will change afterwards)
+    Coordinate userLocation = generateRandomCoordinate(maxX, maxY);
+    printf("User location: (%d, %d)\n", userLocation.x, userLocation.y);
 
-    // Allocate memory for distances
-    float* distances = (float*)malloc(order->numDeliveries * sizeof(float));
+    Coordinate pickup, delivery;
+    generateFoodOrder(&pickup, &delivery, maxX, maxY);
+    printf("Food order - Pickup: (%d, %d), Delivery: (%d, %d)\n", pickup.x, pickup.y, delivery.x, delivery.y);
 
-    // Compute distances from pickup location to delivery locations
-    computeDistances(order, &distances);
+    // Implement Dijkstra's algorithm to find shortest path between userLocation, pickup, and delivery
 
-    // Determine the optimal order to visit delivery locations
-    int* orderOfVisits = (int*)malloc(order->numDeliveries * sizeof(int));
-    determineOptimalOrder(distances, order->numDeliveries, orderOfVisits);
+    // Simulate user accepting or declining order
+    // Provide more orders near the pickup location if accepted
 
-    // Print the order details
-    printOrder(order, orderOfVisits);
+    // Sort orders based on shortest distance first and longest distance after
 
-    // Free memory
-    free(distances);
-    free(orderOfVisits);
+    // Simulate driver's trip according to the sorted order of tasks
 
-    CoordinateNode* current = order->deliveryLocations;
-    while (current != NULL) {
-        CoordinateNode* next = current->next;
-        free(current);
-        current = next;
-    }
-    free(order);
+    // and any other required stuffs
 
     return 0;
 }
